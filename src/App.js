@@ -1,19 +1,25 @@
+import { motion } from "framer-motion";
 import { useContext } from "react";
 import Lines from "./components/Lines";
+import TextAnimate from "./components/TextAnimate";
 import { DrawContext } from "./context/DrawContext";
 import { LinesContext } from "./context/LinesContext.jsx";
 import { MovesContext } from "./context/MovesContext";
 import { PlayerContext } from "./context/PlayerContext";
 import { WinContext } from "./context/WinContext";
 import "./output.css";
-import { motion, Variants } from "framer-motion";
 
 const itemVariants = {
   show: {
     opacity: 1,
-    scale: [1,1.1,1]
+    scale: [1, 1.1, 1],
+    display: "block",
   },
-  hide: { opacity: 0, scale:1, display:'none' }
+  hide: {
+    opacity: 0,
+    scale: 1,
+    transitionEnd: { display: "none" },
+  },
 };
 
 const App = () => {
@@ -28,9 +34,12 @@ const App = () => {
     resetLines();
   };
 
-
   return (
-    <motion.div initial={{opacity: 0}} animate={{opacity: 1}}>
+    <motion.div
+      initial={{ opacity: 0, y: 300 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.8 }}
+    >
       <p className="text-center mb-5">Next Player : {player}</p>
       <motion.div
         whileHover={{ scale: 1.1 }}
@@ -44,26 +53,11 @@ const App = () => {
         ))}
       </motion.div>
 
-      <motion.p
-        whileHover={{scale:1.1}}
-        initial={false}
-        animate={win ? "show" : "hide"}
-        variants={itemVariants}
-        transition={{ duration: 0.5 }}
-        className={`m-10 text-xl font-bold w-fit mx-auto`}
-      >
+      <TextAnimate animation={win ? "show" : "hide"}>
         {player} WON !
-      </motion.p>
-      <motion.p
-        whileHover={{scale:1.1}}
-        initial={false}
-        animate={draw ? "show" : "hide"}
-        variants={itemVariants}
-        transition={{ duration: 0.5 }}
-        className={`m-10 text-xl font-bold w-fit mx-auto`}
-      >
-        DRAW !
-      </motion.p>
+      </TextAnimate>
+
+      <TextAnimate animation={draw ? "show" : "hide"}>DRAW !</TextAnimate>
 
       <div className="flex flex-col">
         {moves.map((element, index) => (
