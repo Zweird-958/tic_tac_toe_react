@@ -1,13 +1,28 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import React from "react";
+import ReactDOM from "react-dom/client";
+import "./styles.css";
+import App from "./App";
+import reportWebVitals from "./reportWebVitals";
+import { LinesProvider } from "./context/LinesContext";
+import { PlayerProvider } from "./context/PlayerContext";
+import { WinProvider } from "./context/WinContext";
+import { DrawProvider } from "./context/DrawContext";
+import { MovesProvider } from "./context/MovesContext";
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
+const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-    <App />
+    <DrawProvider>
+      <WinProvider>
+        <PlayerProvider>
+          <MovesProvider>
+            <LinesProvider>
+              <App />
+            </LinesProvider>
+          </MovesProvider>
+        </PlayerProvider>
+      </WinProvider>
+    </DrawProvider>
   </React.StrictMode>
 );
 
