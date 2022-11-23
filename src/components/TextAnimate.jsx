@@ -14,7 +14,6 @@ const itemVariants = {
 };
 
 const TextAnimate = (props) => {
-  console.log(props);
   return (
     <motion.p
       whileHover={{ scale: 1.1 }}

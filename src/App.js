@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { useContext } from "react";
 import Lines from "./components/Lines";
+import MoveButton from "./components/MoveButton";
 import TextAnimate from "./components/TextAnimate";
 import { DrawContext } from "./context/DrawContext";
 import { LinesContext } from "./context/LinesContext.jsx";
@@ -61,9 +62,12 @@ const App = () => {
 
       <div className="flex flex-col">
         {moves.map((element, index) => (
-          <button onClick={chooseMove(element)}>
+          <MoveButton onClick={chooseMove(element)}>
             Move : {index + 1} | Player : {element.player}
-          </button>
+          </MoveButton>
+          // <button onClick={chooseMove(element)}>
+          //   Move : {index + 1} | Player : {element.player}
+          // </button>
         ))}
       </div>
 
