@@ -35,7 +35,7 @@ const App = () => {
       className="flex items-align justify-center gap-10 m-5"
     >
       <div>
-        <p className="text-center font-bold">Next Player : {player}</p>
+        <p className="text-center font-bold bg-green-600 rounded-lg py-2 text-white font-bold">Next Player : {player}</p>
         <motion.div
           whileHover={{ scale: 1.1 }}
           className="m-10 w-40 h-40 mx-auto"
