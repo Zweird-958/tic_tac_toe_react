@@ -8,6 +8,7 @@ import { PlayerProvider } from "./context/PlayerContext";
 import { WinProvider } from "./context/WinContext";
 import { DrawProvider } from "./context/DrawContext";
 import { MovesProvider } from "./context/MovesContext";
+import { WinningElementProviderTest } from "./context/WinningElementsContext";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -16,9 +17,11 @@ root.render(
       <WinProvider>
         <PlayerProvider>
           <MovesProvider>
-            <LinesProvider>
-              <App />
-            </LinesProvider>
+            <WinningElementProviderTest>
+              <LinesProvider>
+                <App />
+              </LinesProvider>
+            </WinningElementProviderTest>
           </MovesProvider>
         </PlayerProvider>
       </WinProvider>

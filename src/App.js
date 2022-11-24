@@ -8,20 +8,9 @@ import { LinesContext } from "./context/LinesContext.jsx";
 import { MovesContext } from "./context/MovesContext";
 import { PlayerContext } from "./context/PlayerContext";
 import { WinContext } from "./context/WinContext";
+import { WinningElementContextTest } from "./context/WinningElementsContext";
 import "./output.css";
 
-const itemVariants = {
-  show: {
-    opacity: 1,
-    scale: [1, 1.1, 1],
-    display: "block",
-  },
-  hide: {
-    opacity: 0,
-    scale: 1,
-    transitionEnd: { display: "none" },
-  },
-};
 
 const App = () => {
   const { player, togglePlayer } = useContext(PlayerContext);
@@ -29,10 +18,12 @@ const App = () => {
   const { win } = useContext(WinContext);
   const { draw, toggleDraw } = useContext(DrawContext);
   const { moves, resetMoves } = useContext(MovesContext);
+  const { winningElement, resetElements } = useContext(WinningElementContextTest);
 
   const resetButton = () => {
     resetMoves();
     resetLines();
+    resetElements()
   };
 
   return (
@@ -48,8 +39,8 @@ const App = () => {
       >
         {lines.map((element, index) => (
           <Lines
-            squareItems={[element[0], element[1], element[2]]}
-            column={index}
+            squareItems={[ element[0] , element[1], element[2]]}
+            line={index}
           />
         ))}
       </motion.div>
@@ -71,8 +62,6 @@ const App = () => {
         ))}
       </div>
 
-      {/* test */}
-
       <div className="m-10 w-32 mx-auto flex flex-col">
         <motion.button
           whileHover={{ scale: 1.1 }}
@@ -82,15 +71,8 @@ const App = () => {
         >
           RESET
         </motion.button>
-        <motion.button
-          whileHover={{ scale: 1.1 }}
-          whileTap={{ scale: 0.9 }}
-          className="px-5 py-2 bg-red-500 rounded-lg text-white font-bold"
-          onClick={() => toggleDraw(!draw)}
-        >
-          DRAW
-        </motion.button>
       </div>
+
     </motion.div>
   );
 };

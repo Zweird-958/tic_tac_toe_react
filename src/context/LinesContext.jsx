@@ -3,6 +3,7 @@ import { DrawContext } from "./DrawContext";
 import { MovesContext } from "./MovesContext";
 import { PlayerContext } from "./PlayerContext";
 import { WinContext } from "./WinContext";
+import { WinningElementContextTest } from "./WinningElementsContext";
 export const LinesContext = createContext();
 
 const initialLines = [
@@ -18,6 +19,7 @@ export const LinesProvider = ({ children }) => {
   const { win, toggleWin } = useContext(WinContext);
   const { toggleDraw } = useContext(DrawContext);
   const { addNewMoves } = useContext(MovesContext);
+  const { addElements } = useContext(WinningElementContextTest);
 
   const ifDraw = (newLines) => {
     for (let i = 0; i < newLines.length; i++) {
@@ -34,13 +36,22 @@ export const LinesProvider = ({ children }) => {
   const calculateWin = (newLines) => {
     // Lines Wins
     let localWin = false;
-    newLines.map((element) => {
+    newLines.map((element, index) => {
       if (
         element[0] === element[1] &&
         element[0] === element[2] &&
         element[0] !== ""
       ) {
         localWin = true;
+        const elements = [
+          [index, 0],
+          [index, 1],
+          [index, 2],
+        ];
+        addElements(elements);
+        // addElements(index, 0);
+        // addElements(index, 1);
+        // addElements(index, 2);
       }
     });
 
@@ -53,6 +64,15 @@ export const LinesProvider = ({ children }) => {
         newLines[0][i] !== ""
       ) {
         localWin = true;
+
+        const elements = [
+          [0, i],
+          [1, i],
+          [2, i],
+        ];
+        addElements(elements);
+
+        // addElements([newLines[0][i], newLines[1][i], newLines[2][i]]);
       }
     }
 
@@ -64,12 +84,30 @@ export const LinesProvider = ({ children }) => {
       newLines[0][0] !== ""
     ) {
       localWin = true;
+
+      const elements = [
+        [0, 0],
+        [1, 1],
+        [2, 2],
+      ];
+      addElements(elements);
+
+      // addElements([newLines[0][0], newLines[1][1], newLines[2][2]]);
     } else if (
       newLines[2][0] === newLines[1][1] &&
       newLines[2][0] === newLines[0][2] &&
       newLines[2][0] !== ""
     ) {
       localWin = true;
+
+      const elements = [
+        [2, 0],
+        [1, 1],
+        [0, 2],
+      ];
+      addElements(elements);
+
+      // addElements([newLines[2][0], newLines[1][1], newLines[0][2]]);
     }
 
     return localWin;
@@ -109,10 +147,10 @@ export const LinesProvider = ({ children }) => {
       return;
     }
     const newLines = copyLines();
-    if (newLines[columnIndex][lineIndex] !== "") {
+    if (newLines[lineIndex][columnIndex] !== "") {
       return;
     }
-    newLines[columnIndex][lineIndex] = player;
+    newLines[lineIndex][columnIndex] = player;
 
     const turnVal = turn(newLines);
     addNewMoves(newLines, player, turnVal);
@@ -137,6 +175,7 @@ export const LinesProvider = ({ children }) => {
     toggleWin(localWin);
     const localDraw = ifDraw(moveLines);
     toggleDraw(localDraw);
+    // WINNING ELEMENT UPDATE
     setLines(move.lines);
   };
 
