@@ -19,7 +19,7 @@ export const LinesProvider = ({ children }) => {
   const { win, toggleWin } = useContext(WinContext);
   const { toggleDraw } = useContext(DrawContext);
   const { addNewMoves } = useContext(MovesContext);
-  const { addElements } = useContext(WinningElementContextTest);
+  const { addElements, resetElements } = useContext(WinningElementContextTest);
 
   const ifDraw = (newLines) => {
     for (let i = 0; i < newLines.length; i++) {
@@ -155,7 +155,7 @@ export const LinesProvider = ({ children }) => {
     const turnVal = turn(newLines);
     addNewMoves(newLines, player, turnVal);
     setLines(newLines);
-    // deleteMoves(2);
+    
     const localWin = calculateWin(newLines);
     if (localWin) {
       return toggleWin(true);
@@ -173,6 +173,9 @@ export const LinesProvider = ({ children }) => {
     changePlayer(newSymbol);
     const localWin = calculateWin(moveLines);
     toggleWin(localWin);
+    if (!localWin){
+      resetElements();
+    }
     const localDraw = ifDraw(moveLines);
     toggleDraw(localDraw);
     // WINNING ELEMENT UPDATE
